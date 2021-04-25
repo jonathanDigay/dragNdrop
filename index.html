@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dragNdrop</title>
+</head>
+
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .main {
+            min-height: 100vh;
+            width: 100%;
+            background-color: rgb(238, 117, 238);
+            display: grid;
+            place-items: center;
+        }
+
+        .container {
+            width: 80%;
+            min-height: 80%;
+            margin: auto;
+            background: rgb(240, 238, 238);
+            padding: 20px;
+
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-auto-rows: 300px;
+            grid-gap: 20px;
+            place-items: center;
+
+        }
+
+        .container .folder {
+            height: 300px;
+            width: 300px;
+            background: purple;
+            display: inline-block;
+        }
+
+        .container .folder .file {
+            width: 100%;
+            height: 100%;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .hold{
+            border:4px solid black
+        }
+        .invisible{
+            display:none;
+        }
+        .border{
+            border:5px dotted white;
+        }
+    </style>
+    <div class="main">
+        <h1>Drag Me</h1>
+        <div class="container">
+            <div class="folder">
+                <div class="file" draggable="true">
+                    <img src="./me.png" alt="me">
+
+                </div>
+            </div>
+            <div class="folder"></div>
+            <div class="folder"></div>
+            <div class="folder"></div>
+            <div class="folder"></div>
+            <div class="folder"></div>
+            <div class="folder"></div>
+            <div class="folder"></div>
+        </div>
+    </div>
+
+    <script>
+        const file = document.querySelector(".file")
+        const folder = document.querySelectorAll(".folder")
+
+
+
+        // dragger
+        file.addEventListener("dragstart", () => {
+          setTimeout(()=>{
+              file.className="invisible"
+          },0)
+
+        }) 
+        file.addEventListener("dragend", () => {
+            file.className="file"
+        })
+
+        // droper
+         folder.forEach(element => {
+            element.addEventListener("dragover",(e)=>{
+                e.preventDefault()
+                element.classList.add("border")
+               
+              })
+              element.addEventListener("dragleave",(e)=>{
+                element.classList.remove("border")
+               
+              })
+
+              element.addEventListener("drop",(ev)=>{
+                    ev.target.append(file)
+                    element.classList.remove("border")
+              })
+         });
+
+    </script>
+</body>
+
+</html>
